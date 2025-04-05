@@ -41,6 +41,7 @@ The following **additional** features are implemented:
 Here's a walkthrough of implemented user stories:
 
 <img src='https://i.imgur.com/Es61ha8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+https://i.imgur.com/Es61ha8.gif
 
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with ...  https://www.screentogif.com/

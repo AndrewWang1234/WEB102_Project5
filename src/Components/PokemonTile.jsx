@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react'
+import './PokemonTile.css'
 
 const PokemonTile = ({ name, image, type }) => {
     return (

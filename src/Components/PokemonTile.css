@@ -1,0 +1,64 @@
+.pokemon-tile {
+    width: 250px;
+    background: linear-gradient(145deg, #f0f0f0, #d1d1d1); /* Soft gradient for the background */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    text-align: center;
+    padding: 20px;
+    margin: 20px;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+}
+
+.pokemon-tile:hover {
+    transform: translateY(-8px); /* Slightly larger hover effect */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Adding a glowing effect around the Pokémon image */
+.pokemon-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 4px solid #ff9800;
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.5); /* Glow effect */
+    transition: box-shadow 0.3s ease;
+}
+
+/* Make the Pokémon image glow brighter on hover */
+.pokemon-tile:hover .pokemon-image {
+    box-shadow: 0 0 20px rgba(255, 152, 0, 1); /* Stronger glow effect on hover */
+}
+
+/* Pokemon name - making it bolder and using a more dynamic color */
+.pokemon-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 10px 0;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    text-transform: uppercase;
+}
+
+/* Add a more vibrant color for the type with a hover effect */
+.pokemon-type {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 10px;
+    font-style: italic;
+    text-transform: capitalize;
+    transition: color 0.3s ease;
+}
+
+
+/* Optional: Add a small border or divider line between the name and the type */
+.pokemon-tile .divider {
+    width: 50px;
+    height: 3px;
+    background-color: #ff9800;
+    margin: 10px auto;
+    border-radius: 2px;
+}

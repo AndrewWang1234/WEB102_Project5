@@ -40,3 +40,87 @@
 .read-the-docs {
   color: #888;
 }
+
+/* App container */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #fafafa;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin: 20px 0;
+}
+
+h5 {
+  font-size: 1rem;
+  text-align: center;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Input and Select Styles */
+input[type='text'] {
+  width: 300px;
+  padding: 10px;
+  margin: 10px auto;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input[type='text']:focus {
+  border-color: #4CAF50;
+}
+
+select {
+  width: 200px;
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 25px;
+  border: 2px solid #ddd;
+  font-size: 1rem;
+  background-color: black;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+select:focus {
+  border-color: #4CAF50;
+}
+
+/* Pokémon list */
+ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+  margin-top: 20px;
+}
+
+li {
+  margin: 10px;
+}
+
+/* Loading message */
+p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  input[type='text'], select {
+      width: 80%;
+  }
+}
+

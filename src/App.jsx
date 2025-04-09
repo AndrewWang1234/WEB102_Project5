@@ -101,7 +101,7 @@ function App() {
               <PokemonTile name={pokemon.name} image={pokemon.sprites.other['official-artwork'].front_default} type={pokemon.types[0].type.name}/>
             </li>
           ))
-        ) : (<p>Loading...</p>)
+        ) : (<p>{filteredPokemons.length === 0 && searchTerm ? "No Pokemon found" : "Loading..."}</p>)
       }
       </ul>
     </div>

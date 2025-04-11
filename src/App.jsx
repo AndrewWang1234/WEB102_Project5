@@ -3,6 +3,9 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import PokemonTile from './Components/PokemonTile';
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import GraphBox from './Components/GraphBox';
 
 function App() {
   const [list, setList] = useState(null);
@@ -12,6 +15,30 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [types, setTypes] = useState([]);
+  const [typeDistribution, setTypeDistribution] = useState([]);
+  const [pokemonHealthData, setPokemonHealthData] = useState([]);
+
+  const typeColors = {
+    normal: "#b7b8aa",
+    fire: "#ff6e52",
+    water: "#489ffd",
+    electric: "#fbcd31",
+    grass: "#71c946",
+    ice: "#68ccfe",
+    fighting: "#d3897a",
+    poison: "#c88ab3",
+    ground: "#debb50",
+    flying: "#8799ff",
+    psychic: "#fe66a3",
+    bug: "#aabc23",
+    rock: "#baaa67",
+    ghost: "#9996cd",
+    dragon: "#9e93ed",
+    dark: "#b49781",
+    steel: "#aba9bc",
+    fairy: "#ed99ee"
+  };
+
 
   useEffect(() => {
     const fetchGenOne = async () => {
@@ -19,14 +46,15 @@ function App() {
       const json = await response.json();
       setList(json.results);
 
-      const specifcPokemon = await Promise.all(json.results.map(async (pokemon) => {
+      const specificPokemons = await Promise.all(json.results.map(async (pokemon) => {
         const pokemonResponse = await fetch(pokemon.url);
         const pokemonData = await pokemonResponse.json();
         return pokemonData;
       }));
-      setPokemons(specifcPokemon);
-      setFilteredPokemons(specifcPokemon);
-      calculateStats(specifcPokemon);
+      setPokemons(specificPokemons);
+      setFilteredPokemons(specificPokemons);
+      calculateStats(specificPokemons);
+      extractHealthData(specificPokemons);
     
     };
     fetchGenOne().catch(console.error);
@@ -39,21 +67,42 @@ function App() {
     }
   }, [pokemons]);
 
+
   const calculateStats = (pokemons) => {
     const totalCount = pokemons.length;
-    const averageHeight = (pokemons.reduce((sum, pokemon) => sum + pokemon.height, 0)) / totalCount;
-
+    const averageHeight = pokemons.reduce((sum, pokemon) => sum + pokemon.height, 0) / totalCount;
+  
     const typeCounts = pokemons.reduce((counts, pokemon) => {
-      const type = pokemon.types[0].type.name;
-      counts[type] = (counts[type] || 1) + 1;
+      pokemon.types.forEach((type) => {
+        const typeName = type.type.name;
+        counts[typeName] = (counts[typeName] || 0) + 1;  
+      });
       return counts;
     }, {});
-
+  
     const mostCommonType = Object.entries(typeCounts).reduce((a, b) => a[1] > b[1] ? a : b)[0];
 
-    setStats({ totalCount, averageHeight, mostCommonType});
+    setStats({ totalCount, averageHeight, mostCommonType });
+  
 
+    const typeDistribution = Object.keys(typeCounts).map((type) => ({
+      name: type, 
+      value: typeCounts[type],
+      color: typeColors[type] || "#d4d4d4", 
+    }));
+  
+    setTypeDistribution(typeDistribution);
   };
+
+  const extractHealthData = (pokemons) => {
+    const healthData = pokemons.map((pokemon, index) => ({
+      name: pokemon.name,
+      hp: pokemon.stats.find(stat => stat.stat.name === "hp")?.base_stat || 0,
+      order: index + 1 
+    }));
+    setPokemonHealthData(healthData);
+  }
+  
 
   const searchItems = (term) => {
     setSearchTerm(term);
@@ -80,11 +129,45 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h1>Pokemon list</h1>
       <h5>Total Pokemon: {stats.totalCount}</h5>
       <h5>Average Height: {stats.averageHeight.toFixed(2)}</h5>
       <h5>Most Common Type: {stats.mostCommonType}</h5>
+
+      {typeDistribution.length > 0 && (
+        <div className='chart-container'>
+          <h3>Pokemon Distribution by Type</h3>
+          <PieChart width={500} height={500}>
+            <Pie data={typeDistribution} dataKey="value" nameKey="name" outerRadius={150} label>
+              {typeDistribution.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.color}></Cell>
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </div>
+      )}
+
+      {pokemonHealthData.length > 0 && (
+        <div className='chart-container'>
+          <h3>Pokemon Health (HP) Over Order</h3>
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={pokemonHealthData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="order" />
+              <YAxis />
+              <Tooltip content={<GraphBox />}/>
+              <Legend />
+              <Line type="monotone" dataKey="hp" stroke="#8884d8" activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="name" stroke="8884d8" dot={false} activeDot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+
       <input type='text' placeholder='Type Pokemon Name' value={searchTerm} onChange={(e) => searchItems(e.target.value)}/>
       
       <select value={selectedType} onChange={handleTypeChange}>

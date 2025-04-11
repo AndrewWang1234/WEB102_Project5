@@ -124,3 +124,45 @@ p {
   }
 }
 
+nav {
+  position: fixed; 
+  top: 0; 
+  right: 0; 
+}
+
+.home-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
+  border-radius: 25px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.home-link:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+h3 {
+  color: #555;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  min-height: 100vh; /* Ensure the container takes at least the full viewport height */
+  text-align: center;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  width: 100%; /* Make sure it stretches the full width */
+  padding: 20px; /* Optional, for spacing around the chart */
+}
